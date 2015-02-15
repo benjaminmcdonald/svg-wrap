@@ -1,0 +1,26 @@
+{
+  "name": "svg-wrap",
+  "version": "1.0.0",
+  "description": "JavaScript SVG Utility library",
+  "main": "svg-positioning.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "tape": "^3.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjaminmcdonald/svg-wrap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benjaminmcdonald/svg-wrap/issues"
+  },
+  "homepage": "https://github.com/benjaminmcdonald/svg-wrap"
+}
