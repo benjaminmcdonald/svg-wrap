@@ -3,7 +3,6 @@ var test = require('tape');
 
 test('SVG positioning ok', function (t) {
 	t.plan(12);
-	t.timeoutAfter(1000);
 
 	var sizeTo = {
 		'x': Math.random() * 20,
