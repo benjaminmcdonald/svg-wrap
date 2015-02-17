@@ -10,6 +10,10 @@ JavaScript SVG Utility library
 # install
 
 
+# testing
+browserify test/*.js | tape-run
+
+
 # license
 
 MIT

@@ -1,13 +1,9 @@
 function svgPositionsDefinition() {
     'use strict';
 
-    var MOVEABLE_ELEMENTS = ['ellipse', 'circle', 'foreignObject',
-                'rect', 'square', 'image'];
+    var RESIZEABLE_ELEMENTS = ['ellipse', 'circle', 'foreignObject',
+                'rect', 'image', 'line'];
     var _this = {};
-
-    function removeTransform(svgElement) {
-
-    }
 
     function sizeSvg(element, newBBox) {
         switch (element.nodeName.toLowerCase()) {
@@ -48,6 +44,16 @@ function svgPositionsDefinition() {
                     element.cy.baseVal.value = newBBox.y + element.r.baseVal.value;
                 }
                 break;
+            case 'use':
+                console.assert(!('width' in newBBox) && 
+                    !('width' in newBBox));
+                if (newBBox.x) {
+                    element.setAttribute('x', newBBox.x);
+                }
+                if (newBBox.y) {
+                    element.setAttribute('y', newBBox.y);
+                }
+                break;
             case 'foreignObject':
             case 'rect':
             case 'image':
@@ -67,25 +73,65 @@ function svgPositionsDefinition() {
         }
     }
 
-    function isMoveable(svgElement) {
-        return MOVEABLE_ELEMENTS.indexOf(svgElement.nodeName.toLowerCase()) !== -1;
+    function getEllipseBbox() {
+        var rx = parseFloat(ellipseElem.getAttribute('rx'));
+        var ry = parseFloat(ellipseElem.getAttribute('ry'));
+        return {
+            'x': parseFloat(ellipseElem.getAttribute('cx')) - rx,
+            'y': parseFloat(ellipseElem.getAttribute('cy')) - ry,
+            'width': rx * 2,
+            'height': ry * 2
+        };
+    }
+
+    function getCircleBbox() {
+        var r = parseFloat(ellipseElem.getAttribute('r'));
+        return {
+            'x': parseFloat(ellipseElem.getAttribute('cx')) - r,
+            'y': parseFloat(ellipseElem.getAttribute('cy')) - r,
+            'width': r * 2,
+            'height': r * 2
+        };
+    }
+
+    function getRectBbox() {
+        return {
+            'x': parseFloat(rectElem.getAttribute('x')),
+            'y': parseFloat(rectElem.getAttribute('y')),
+            'width': parseFloat(rectElem.getAttribute('width')),
+            'height': parseFloat(rectElem.getAttribute('height'))
+        };
+    }
+
+    var getBboxDict = {
+        'image': getRectBbox,
+        'rect': getRectBbox,
+        'foreignObject': getRectBbox,
+        'ellipse': getCircleBbox,
+        'circle': getEllipseBbox
+    };
+
+    function getBbox(element) {
+        return getBboxDict[element.nodeName.toLowerCase()]();
+    }
+
+    function getResizable() {
+        return RESIZEABLE_ELEMENTS;
     }
 
     return {
         'sizeSvg': sizeSvg,
-        'isMoveable': isMoveable,
-        'removeTransform': removeTransform
+        'getResizable': getResizable
     };
 }
 
- // Export the Underscore object for **Node.js**, with
-  // backwards-compatibility for the old `require()` API. If we're in
-  // the browser, add `_` as a global object.
-  if (typeof exports !== 'undefined') {
+// backwards-compatibility for the old `require()` API. If we're in
+// the browser, add a global object.
+if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = svgPositionsDefinition();
+        exports = module.exports = svgPositionsDefinition();
     }
     exports.svgPositions = svgPositionsDefinition();
-  } else {
+} else {
     root.svgPositions = svgPositionsDefinition();
-  }
+}

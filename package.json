@@ -7,18 +7,31 @@
     "test": "test"
   },
   "dependencies": {
-    "tape": "^3.5.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^3.4.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test/*.js"
+  },
+  "testling": {
+    "files": "test/*.js",
+    "browsers": [
+      "ie/6..latest",
+      "chrome/20..latest",
+      "firefox/10..latest",
+      "safari/latest",
+      "opera/11.0..latest",
+      "iphone/6",
+      "ipad/6"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/benjaminmcdonald/svg-wrap.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ben McDonald",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/benjaminmcdonald/svg-wrap/issues"
   },
